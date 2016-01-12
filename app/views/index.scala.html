@@ -1,0 +1,21 @@
+@(contacts: List[Contact], contactForm: Form[String])(implicit messages: Messages)
+
+@import helper._
+@main("Contacts") {
+
+    @form(routes.Application.createContact()){
+    @inputText(contactForm("contact"), '_label -> "Name")
+    <input type="submit" value="Create">
+}
+
+ <h3>@contacts.size Contact(s)</h3>
+
+<ul>
+    @for(contact <- contacts){
+        <li>
+            @contact.contact
+            <a href="@routes.Application.deleteContact(contact.id)">Delete Contact</a>
+        </li>
+    }
+</ul>
+}
