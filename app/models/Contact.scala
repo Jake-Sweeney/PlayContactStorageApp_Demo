@@ -20,10 +20,12 @@ object Contact {
 
   def create(contact:String) = {
 //    val id = nextId(); contacts += id -> Contact(id, contact)
-   val contactDB = new ContactDB(Contact(nextId(), contact)); contactDB.saveContact
+   val contactDB = new ContactDB(); contactDB.saveContact(Contact(nextId(), contact))
   }
 
   def delete(id: Long) = { contacts -= id}
 
-  def list(): List[Contact] = { contacts.values.toList}
+//  def list() = contacts.values.toList
+
+  def list(): List[Contact] = { val contactDB = new ContactDB; contactDB.retrieveContactNames() }
 }
