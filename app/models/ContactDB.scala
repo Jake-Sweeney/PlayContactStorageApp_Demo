@@ -15,7 +15,7 @@ import anorm.SqlParser._
 import scala.collection.immutable.Iterable
 import scala.collection.mutable.HashMap
 
-class ContactDB() {
+object ContactDB {
 
    def saveContact(contact: Contact) = {
      val contactID = getNextId
@@ -53,5 +53,16 @@ class ContactDB() {
     // In this case it's a list of Contacts using the key, value pairs of the map.
     val contactsList: List[Contact] = for((key,value) <- selectStatement) yield { new Contact(key, value)}
     contactsList
+  }
+
+  def deleteContact(id: Long) = DB.withConnection { implicit  connection =>
+    val contactID = id.toInt
+    val deleteStatement: Int =
+      SQL("delete from Contact where contactid = {contactID}")
+        .on('contactID -> contactID)
+        .executeUpdate()
+    if (!(deleteStatement > 0)) {
+      println("No contacts were deleted.")
+    }
   }
 }
